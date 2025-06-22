@@ -6,6 +6,7 @@ from ninja_jwt.controller import NinjaJWTDefaultController
 
 api = NinjaExtraAPI()
 api.register_controllers(NinjaJWTDefaultController)
+api.add_router("/waitlists/", "waitlists.api.router")
 
 class UserSchema(Schema):
     username: str
@@ -18,6 +19,8 @@ def hello(request):
     print(request)
     return "Hello World"
 
-@api.get("/me", response=UserSchema, auth=JWTAuth())
+@api.get("/me", 
+         response=UserSchema, 
+         auth=JWTAuth())
 def me(request):
     return request.user
