@@ -1,8 +1,6 @@
 "use client"
 
-
-
-const LOGIN_URL = "http://127.0.0.1:8001/api/token/pair"
+const LOGIN_URL = "/api/login/"
 
 export default function Login() {
 
@@ -25,6 +23,7 @@ export default function Login() {
         console.log(data);
         if(response.ok){
             console.log("logged in");
+            localStorage.setItem('token', data.access)
         }
     }
 
