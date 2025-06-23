@@ -1,7 +1,7 @@
 "use server"
 
-import { DJANGO_API_ENDPOINT } from '@/config/defaults'
-import { setRefreshToken, setToken } from '@/lib/auth'
+import { DJANGO_API_ENDPOINT } from '../../../config/defaults'
+import { setRefreshToken, setToken } from '../../../lib/auth'
 import { NextResponse } from 'next/server'
 
 const DJANGO_API_LOGIN_URL = `${DJANGO_API_ENDPOINT}/token/pair`

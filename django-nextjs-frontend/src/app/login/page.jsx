@@ -1,13 +1,14 @@
 "use client"
 
+import { useRouter } from "next/navigation";
+
 const LOGIN_URL = "/api/login/"
 
 export default function Login() {
+    const router = useRouter()
 
     async function handleSubmit(event) {
         event.preventDefault();
-        console.log(event, event.target)
-
         const formData = new FormData(event.target)
         const objectFromForm = Object.fromEntries(formData);
         const jsonData = JSON.stringify(objectFromForm);
@@ -19,11 +20,9 @@ export default function Login() {
             body: jsonData
         }
         const response = await fetch(LOGIN_URL, requestOptions);
-        const data = await response.json();
-        console.log(data);
         if(response.ok){
             console.log("logged in");
-            localStorage.setItem('token', data.access)
+            router.replace("/");
         }
     }
 
