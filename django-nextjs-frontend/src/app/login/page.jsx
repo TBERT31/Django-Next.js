@@ -1,11 +1,11 @@
 "use client"
 
-import { useRouter } from "next/navigation";
+import { useAuth } from "../../components/authProvider";
 
 const LOGIN_URL = "/api/login/"
 
 export default function Login() {
-    const router = useRouter()
+     const auth = useAuth()
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -22,7 +22,7 @@ export default function Login() {
         const response = await fetch(LOGIN_URL, requestOptions);
         if(response.ok){
             console.log("logged in");
-            router.replace("/");
+            auth.login()
         }
     }
 
