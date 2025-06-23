@@ -29,9 +29,14 @@ export default function RootLayout({ children }) {
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable
         )}>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <ThemeProvider 
+            attribute="class"
+            defaultTheme="dark"
+        >
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
