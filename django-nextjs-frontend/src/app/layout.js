@@ -1,6 +1,6 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "../components/authProvider";
+import { AuthProvider } from "@/components/authProvider";
 
 import { Inter as FontSans } from "next/font/google"
  
@@ -25,18 +25,22 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-       <body className={cn(
+      <body className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable
         )}>
-        <ThemeProvider 
-            attribute="class"
-            defaultTheme="dark"
-        >
+          <Suspense fallback={<div>Loading...</div>}>
+          <ThemeProvider 
+              attribute="class"
+              defaultTheme="dark"
+          >
           <AuthProvider>
-            {children}
+            <BaseLayout className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col bg-muted/40">
+                {children}
+            </BaseLayout>
           </AuthProvider>
-        </ThemeProvider>
+          </ThemeProvider>
+        </Suspense>
       </body>
     </html>
   );

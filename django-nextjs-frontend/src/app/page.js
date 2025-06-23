@@ -1,27 +1,35 @@
 "use client"
-
-import { useAuth } from "../components/authProvider";
+import {useState} from 'react';
 import Image from "next/image";
 import useSWR from 'swr';
+import { useAuth } from '@/components/authProvider';
+import { ThemeToggleButton } from '@/components/themeToggleButton';
+// import WaitlistForm from './waitlists/forms';
+
 
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
+
 export default function Home() {
   const auth = useAuth()
-  const {data, error, isLoading} = useSWR("http://localhost:8001/api/hello", fetcher)
-  if (error) return <div>failed to load</div>
-  if (isLoading) return <div>loading...</div>
-
+  const {data, error, isLoading} = useSWR("/api/hello", fetcher)
+  // if (error) return <div>failed to load</div>
+  // if (isLoading) return <div>loading...</div>
+ 
+  
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <div>
-          {auth.isAuthenticated ? "Hello user" : "Hello guest"}
-        </div>
-        <div>
-          {JSON.stringify(data)}
-        </div>
-      </main>
-    </div>
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <div>{data && data.apiEndpoint}</div>
+      <div>
+        {/* <WaitlistForm /> */}
+      </div>
+      <div>
+        {auth.isAuthenticated ? "Hello user" : "Hello guest"}
+      </div>
+      <div>
+        <ThemeToggleButton />
+      </div>
+
+    </main>
   );
 }
