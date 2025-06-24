@@ -21,10 +21,13 @@ export function WaitlistCard({waitlistEvent}) {
   const [errors, setErrors] = useState({})
   const [error, setError] = useState('')
 
-    if (!waitlistEvent && !waitlistEvent.email ){ 
+    if (!waitlistEvent){ 
         return null
     }
 
+    if (!waitlistEvent.email ){ 
+        return null
+    }
    
   async function handleSubmit (event) {
         event.preventDefault()
