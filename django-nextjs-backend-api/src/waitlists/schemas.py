@@ -15,6 +15,7 @@ class ErrorWaitlistEntryCreateSchema(Schema):
     email: List[Any]
     # non_field_errors: List[dict] = []
 
+
 class WaitlistEntryListSchema(Schema):
     # List -> Data
     # WaitlistEntryOut
@@ -23,7 +24,7 @@ class WaitlistEntryListSchema(Schema):
     updated: datetime
     timestamp: datetime
     description: Optional[str] = ""
-    
+
 
 class WaitlistEntryDetailSchema(Schema):
     # Get -> Data
@@ -32,5 +33,11 @@ class WaitlistEntryDetailSchema(Schema):
     email: EmailStr
     updated: datetime
     timestamp: datetime
+    description: Optional[str] = ""
 
 
+class WaitlistEntryUpdateSchema(Schema):
+    # Put -> Data
+    # WaitlistEntryOut
+    # id: int
+    description: str = ""

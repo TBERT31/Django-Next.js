@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404
 from ninja import Router
 
 import helpers
+from ninja_jwt.authentication import JWTAuth
+
 from .forms import WaitlistEntryCreateForm
 from .models import WaitlistEntry
 from .schemas import (
@@ -11,10 +13,14 @@ from .schemas import (
     WaitlistEntryListSchema, 
     WaitlistEntryDetailSchema,
     ErrorWaitlistEntryCreateSchema,
+    WaitlistEntryUpdateSchema
 )
 
 router = Router()
 
+
+
+# /api/waitlists/
 @router.get("", response=List[WaitlistEntryListSchema], auth=helpers.api_auth_user_required)
 def list_wailist_entries(request):
     qs = WaitlistEntry.objects.filter(user=request.user)
@@ -49,4 +55,29 @@ def get_wailist_entry(request, entry_id:int):
         WaitlistEntry, 
         id=entry_id,
         user=request.user)
+    return obj
+
+@router.put("{entry_id}/", response=WaitlistEntryDetailSchema, auth=helpers.api_auth_user_required)
+def update_wailist_entry(request, 
+    entry_id:int, 
+    payload:WaitlistEntryUpdateSchema
+    ):
+    obj = get_object_or_404(
+        WaitlistEntry, 
+        id=entry_id,
+        user=request.user)
+    payload_dict = payload.dict()
+    for k,v in payload_dict.items():
+        setattr(obj, k, v)
+    obj.save()
+    return obj
+
+# http DELETE
+@router.delete("{entry_id}/delete/", response=WaitlistEntryDetailSchema, auth=helpers.api_auth_user_required)
+def delete_wailist_entry(request, entry_id:int):
+    obj = get_object_or_404(
+        WaitlistEntry, 
+        id=entry_id,
+        user=request.user)
+    obj.delete()
     return obj
